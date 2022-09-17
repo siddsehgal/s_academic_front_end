@@ -13,6 +13,7 @@ const Dashboard = () => {
     return (
         <div>
             <Header />
+            {/* Change */}
             <div className={styles.Dashboard}>
                 <div class="container text-center" >
                     <div class="row">
