@@ -1,0 +1,38 @@
+.head {
+    width: 100%;
+    overflow:hidden;
+    position:fixed;
+    top: 0;
+    /* z-index: 3 !important; */
+    flex-wrap: nowrap;
+    background-color: #5A9AE4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.z {
+    z-index: 3;
+}
+.left {
+    display: flex;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    margin-right: 2rem;
+}
+
+.right a {
+    padding-right: 10px;
+}
+
+.right input {
+    height: auto;
+    width: auto;
+    border:none;
+    border-radius: 25px;
+    padding: 0 10px;
+    margin-left: 10px;
+
+}

@@ -1,0 +1,7 @@
+.detailSection{
+    display: flex;     
+}
+.card{
+   
+    overflow: hidden;
+}

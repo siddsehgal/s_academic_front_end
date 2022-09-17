@@ -1,0 +1,12 @@
+.Dashboard{
+    margin-top: 8rem;
+    display: grid;
+    overflow: auto;
+    /* position: absolute; */
+    z-index: 1;
+    
+}
+.ownbtn{
+    border: none;
+    background: none;     
+}
