@@ -34,13 +34,13 @@ const Login = () => {
                             <label className="form-check-label" for="exampleCheck1">Check me out</label>
                         </div>
                         <button style={{ marginRight: "5px" }} onClick={()=>navigate("/dash")} type="submit" class="btn btn-primary">Login</button>
-                        <button type="link" class="btn btn-primary">Create an Account</button>
+                        <button type="link" class="btn btn-primary" onClick={()=>navigate("/createAccount")}>Create an Account</button>
                         <div className="mb-3" style={{ marginTop: "10px" }}>
                             <p>Login With</p>
                             <div>
                                 <a href="#"><img src={google} alt="" /></a>
                                 
-                            </div>
+                            </div>createAccount
                         </div>
                     </form>
                 </div>

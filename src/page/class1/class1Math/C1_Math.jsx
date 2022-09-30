@@ -2,7 +2,7 @@ import React from 'react'
 import ChapterCard from '../../../Component/chapterCard/chapterCard'
 import Footer from '../../../Component/footer/footer'
 import Header from '../../../Component/header/header'
-import SubCard from '../../../Component/subCard/subCard'
+import LeftSectionCard from '../../../Component/leftSectionCard/leftSectionCard'
 import styles from './C1_Math.module.css'
 
 
@@ -12,14 +12,16 @@ function C1_Math() {
         <div>
             <Header></Header>
             <div className={styles.detailSection}>
-                <SubCard subject1="Maths"
-                    subject2="English" subject3="Hindi"
-                    subject4="Physical Education (Minor Subject)"
-                    subject5="Arts and Craft (Minor Subject)"
-                    subject6="EVS (Minor Subject)"
-                    subject7="General Knowledge (Minor Subject)" />
+                <LeftSectionCard item='Subject'
+                    item1="Maths"
+                    item2="English"
+                    item3="Hindi"
+                    item4="Physical Education (Minor Subject)"
+                    item5="Arts and Craft (Minor Subject)"
+                    item6="EVS (Minor Subject)"
+                    item7="General Knowledge (Minor Subject)" />
                 <div className={styles.card}>
-                <ChapterCard heading="Math Chapter 1"
+                    <ChapterCard heading="Math Chapter 1"
                         subheading="Special title treatment"
                         text="With supporting text below as a natural lead-in to additional content." />
                     <ChapterCard heading="Math Chapter 1"

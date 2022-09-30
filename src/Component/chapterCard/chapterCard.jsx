@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from './chapterCard.module.css'
 
 
-const ClassCard = ({subheading, heading, text}) => {
+const ClassCard = ({ subheading, heading, text, LinkForLearnMore, LinkForExercise, LinkForDownload_pdf}) => {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
 
     return (
@@ -16,9 +16,9 @@ const ClassCard = ({subheading, heading, text}) => {
                 <div class="card-body">
                     {subheading && <h5 class="card-title">{subheading}</h5>}
                     {text && <p class="card-text">{text}</p>}
-                    <a href="#" className={`btn btn-primary ${styles.btnmargin}`}>Learn More</a>
-                    <a href="#" className={`btn btn-primary ${styles.btnmargin}`}>Exercise</a>
-                    <a href="#" class="btn btn-primary">Download pdf</a>
+                    {LinkForLearnMore && <button onClick={()=>navigate(`${LinkForLearnMore}`)}  className={`btn btn-primary ${styles.btnmargin}`}>Learn More</button>}
+                    {LinkForExercise && <button onClick={()=>navigate(`${LinkForExercise}`)} className={`btn btn-primary ${styles.btnmargin}`}>Exercise</button>}
+                    {LinkForDownload_pdf && <button onClick={()=>navigate(`${LinkForDownload_pdf}`)} class="btn btn-primary">Download pdf</button>}
                 </div>
             </div>
         </div>
