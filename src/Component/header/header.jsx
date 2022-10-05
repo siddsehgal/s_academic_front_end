@@ -1,9 +1,13 @@
 import React from "react";
 import style from './header.module.css';
 import logo from '../../img/image 1.png'
+import profile from '../../img/id-card-clip-solid.svg'
+import { useNavigate } from "react-router-dom";
 
 
-const header = () => {
+
+const Header = () => {
+    const navigate = useNavigate();
     return (
         <div >
             <div className={`position-sticky ${style.z}`}>
@@ -15,6 +19,7 @@ const header = () => {
                     <div className={style.right}>
                         <strong>Demo...</strong>
                         <input type="text" placeholder="Search" />
+                        <img onClick={() => navigate("/profile")} className={style.profile} src={profile} alt="" />
                     </div>
                 </div>
             </div>
@@ -22,4 +27,4 @@ const header = () => {
     )
 }
 
-export default header;
+export default Header;

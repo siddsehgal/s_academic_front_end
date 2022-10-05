@@ -39,3 +39,11 @@
 .right input:checked{
     border: none;
 }
+
+.profile{
+    width: 2rem;
+    margin-left: 10px;
+}
+.profile:hover{
+    cursor: pointer;
+}

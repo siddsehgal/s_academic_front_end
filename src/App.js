@@ -7,6 +7,7 @@ import C1_English from './page/class1/class1English/C1_English';
 import C1_Math from './page/class1/class1Math/C1_Math';
 import CreateAccount from './page/CreateAccount/CreateAccount';
 import ExcaciseClas1 from './page/class1/class1English/ExcaciseClas1';
+import Profile from './page/profile/Profile';
 
 
 
@@ -17,6 +18,7 @@ function App() {
       <Router>
         <Routes>
         <Route path="/" exact element={<Login />} />
+        <Route path="/profile" exact element={<Profile />} />
         <Route path="/createAccount" exact element={<CreateAccount />} />
         <Route path="/dash" exact element={<Dashboard />} />
         <Route path="/class1/ExcasieClass1" exact element={<ExcaciseClas1 />} />

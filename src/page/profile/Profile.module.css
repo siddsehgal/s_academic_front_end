@@ -1,0 +1,21 @@
+.profile {
+    margin-top: 8rem;
+}
+.details{
+    display: flex;
+    text-align: left;
+    align-items: center;
+    /* justify-content: space-around; */
+    margin: 2rem;
+}
+
+.left img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-right: 5rem;
+}
+.Score_table{
+    width: 60%;
+    margin-left: 2rem;
+}
