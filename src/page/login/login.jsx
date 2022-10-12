@@ -61,7 +61,7 @@ const Login = () => {
             url: `/auth/login/`,
             body: { email: loginEmail, password: loginPassword },
         });
-        
+
         setIsLoading(false);
         if (status === 'fail') return alert.error(data.message);
 
@@ -86,7 +86,7 @@ const Login = () => {
                 repeatPassword: signUpConfirmPassword,
             },
         });
-        
+
         setIsLoading(false);
         if (status === 'fail') return alert.error(data.message);
         localStorage.setItem('jwt', data.data.token);
@@ -96,7 +96,6 @@ const Login = () => {
     };
 
     const responseGoogle = async (response) => {
-        
         const { name, email, googleId, imageUrl } = response.profileObj;
         setIsLoading(true);
         const { status, data } = await APICall({
@@ -109,7 +108,7 @@ const Login = () => {
                 googleImgUrl: imageUrl,
             },
         });
-        
+
         setIsLoading(false);
         if (status === 'fail') return alert.error(data.message);
         localStorage.setItem('jwt', data.data.token);
@@ -295,7 +294,7 @@ const Login = () => {
                     <div className="mb-3" style={{ marginTop: '10px' }}>
                         <p>Login With</p>
                         <GoogleLogin
-                            clientId="118504559706-a0c21jt8du2v3sisbc2kupvg5dik8cdq.apps.googleusercontent.com"
+                            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                             buttonText="Login"
                             onSuccess={responseGoogle}
                             onFailure={responseGoogle}
