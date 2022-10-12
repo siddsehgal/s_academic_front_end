@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../dashboard.module.css';
+import styles from '../../dashboard/dashboard.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Button, Box, CircularProgress } from '@mui/material';
@@ -7,7 +7,12 @@ import { APICall } from '../../../services/apiCall';
 import { useState } from 'react';
 import { useAlert } from 'react-alert';
 
-export default function AddClassForm({ setOpen, setReload }) {
+export default function EditSubjectForm({
+    setOpen,
+    classId,
+    setReload,
+    subjectId,
+}) {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState({ title: '' });
     const { title } = data;
@@ -15,21 +20,22 @@ export default function AddClassForm({ setOpen, setReload }) {
     const navigate = useNavigate();
     const alert = useAlert();
 
-    async function onFormSubmit(e) {
-        setIsLoading(true);
+    useEffect(() => {
+        async function getData() {
+            setIsLoading(true);
 
-        const { status, data } = await APICall({
-            method: 'post',
-            url: '/class',
-            body: { title },
-        });
-        setIsLoading(false);
-        if (status === 'fail') return alert.error(data.message);
+            const { status, data } = await APICall({
+                method: 'get',
+                url: `/subject/${subjectId}`,
+            });
 
-        alert.success(data.message);
-        setOpen((prev) => !prev);
-        setReload((prev) => !prev);
-    }
+            setIsLoading(false);
+            if (status === 'fail') return alert.error(data.message);
+            setData(data.data);
+        }
+        getData();
+    }, []);
+
     function handleChange(e) {
         let name = e.target.name;
         let value = e.target.value;
@@ -39,6 +45,41 @@ export default function AddClassForm({ setOpen, setReload }) {
         });
     }
 
+    async function onFormSubmit(e) {
+        setIsLoading(true);
+
+        const { status, data } = await APICall({
+            method: 'patch',
+            url: `/subject/${subjectId}`,
+            body: { title, class_id: classId },
+        });
+
+        setIsLoading(false);
+        if (status === 'fail') return alert.error(data.message);
+
+        alert.success(data.message);
+        setOpen((prev) => !prev);
+        setReload((prev) => !prev);
+        // window.location.reload();
+    }
+
+    async function handelDeleteClick() {
+        if (window.confirm('Are you sure you want to delete')) {
+            setIsLoading(true);
+            const { status, data } = await APICall({
+                method: 'delete',
+                url: `/subject/${subjectId}`,
+            });
+
+            setIsLoading(false);
+            if (status === 'fail') return alert.error(data.message);
+
+            alert.success(data.message);
+            setOpen((prev) => !prev);
+            setReload((prev) => !prev);
+        }
+        // window.location.reload();
+    }
     return (
         <div
             style={{
@@ -89,6 +130,17 @@ export default function AddClassForm({ setOpen, setReload }) {
                             disabled={isLoading}
                         >
                             Submit
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            color="error"
+                            disabled={isLoading}
+                            onClick={() => {
+                                handelDeleteClick();
+                            }}
+                        >
+                            Delete
                         </Button>
                         <Button
                             variant="outlined"

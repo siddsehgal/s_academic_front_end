@@ -1,0 +1,12 @@
+.Exercise {
+    /* z-index: -1; */
+    margin: 3%;
+}
+
+.container {
+    /* margin-top: 9rem; */
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

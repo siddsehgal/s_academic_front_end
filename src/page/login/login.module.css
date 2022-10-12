@@ -1,9 +1,31 @@
-.container{
+.container {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-top: 10rem;
+    /* margin-top: 10rem; */
 }
-.left{
-    text-align: center
+.left {
+    text-align: center;
+    width: 40%;
+}
+.left img {
+    width: 100%;
+}
+
+.right {
+    width: 30%;
+    /* text-align: center; */
+}
+
+@media only screen and (max-width: 500px) {
+    .container {
+        flex-direction: column;
+    }
+    .left {
+        width: 90%;
+    }
+
+    .right {
+        width: 90%;
+    }
 }

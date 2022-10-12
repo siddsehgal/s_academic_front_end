@@ -1,19 +1,26 @@
 import React from 'react';
-import styles from '../dashboard.module.css';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import styles from '../topic.module.css';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Add, Edit } from '@mui/icons-material';
+import { useEffect } from 'react';
 
-export default function ClassComponent({ data, setOpen, setClassId, isAdmin }) {
-    const { _id, title, order } = data;
+export default function NoteComponent({
+    data,
+    setOpen,
+    setAssignmentId,
+    isAdmin,
+}) {
+    const { _id, title, link, order } = data;
     const navigate = useNavigate();
+    const { subId, classId, topicId } = useParams();
 
-    useEffect(() => {}, []);
     return (
         <div
             className={`${styles.class_div}`}
             onClick={(e) => {
-                navigate(`/class/${_id}`);
+                navigate(
+                    `/class/${classId}/subject/${subId}/topic/${topicId}/assignment/${_id}`
+                );
             }}
         >
             <p>{title}</p>
@@ -27,7 +34,7 @@ export default function ClassComponent({ data, setOpen, setClassId, isAdmin }) {
                     // className={`${styles.edit_button}`}
                     onClick={(e) => {
                         e.stopPropagation();
-                        setClassId(data._id);
+                        setAssignmentId(_id);
                         setOpen((prev) => !prev);
                     }}
                 ></Edit>

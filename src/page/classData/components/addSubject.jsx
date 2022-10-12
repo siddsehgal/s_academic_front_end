@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../dashboard.module.css';
+import styles from '../../dashboard/dashboard.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Button, Box, CircularProgress } from '@mui/material';
@@ -7,7 +7,7 @@ import { APICall } from '../../../services/apiCall';
 import { useState } from 'react';
 import { useAlert } from 'react-alert';
 
-export default function AddClassForm({ setOpen, setReload }) {
+export default function AddSubjectForm({ setOpen, setReload, classId }) {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState({ title: '' });
     const { title } = data;
@@ -20,13 +20,14 @@ export default function AddClassForm({ setOpen, setReload }) {
 
         const { status, data } = await APICall({
             method: 'post',
-            url: '/class',
-            body: { title },
+            url: '/subject',
+            body: { title, class_id: classId },
         });
-        setIsLoading(false);
+
         if (status === 'fail') return alert.error(data.message);
 
         alert.success(data.message);
+        setIsLoading(false);
         setOpen((prev) => !prev);
         setReload((prev) => !prev);
     }
@@ -47,7 +48,7 @@ export default function AddClassForm({ setOpen, setReload }) {
             }}
         >
             <div className={`${styles.add_class_div}`}>
-                <h3>Add New Class</h3>
+                <h3>Add New Subject</h3>
 
                 <form
                     onSubmit={(e) => {
@@ -61,7 +62,7 @@ export default function AddClassForm({ setOpen, setReload }) {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Class Title"
+                            placeholder="Subject Title"
                             style={{ width: '100%' }}
                             required={true}
                             name="title"

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../dashboard.module.css';
+import styles from '../topic.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Button, Box, CircularProgress } from '@mui/material';
@@ -7,10 +7,10 @@ import { APICall } from '../../../services/apiCall';
 import { useState } from 'react';
 import { useAlert } from 'react-alert';
 
-export default function AddClassForm({ setOpen, setReload }) {
+export default function AddNoteForm({ setOpen, setReload, topicId }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState({ title: '' });
-    const { title } = data;
+    const [data, setData] = useState({ title: '', link: '' });
+    const { title, link } = data;
 
     const navigate = useNavigate();
     const alert = useAlert();
@@ -20,8 +20,8 @@ export default function AddClassForm({ setOpen, setReload }) {
 
         const { status, data } = await APICall({
             method: 'post',
-            url: '/class',
-            body: { title },
+            url: '/note',
+            body: { title, link, topic_id: topicId },
         });
         setIsLoading(false);
         if (status === 'fail') return alert.error(data.message);
@@ -47,7 +47,7 @@ export default function AddClassForm({ setOpen, setReload }) {
             }}
         >
             <div className={`${styles.add_class_div}`}>
-                <h3>Add New Class</h3>
+                <h3>Add New Note</h3>
 
                 <form
                     onSubmit={(e) => {
@@ -61,11 +61,25 @@ export default function AddClassForm({ setOpen, setReload }) {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Class Title"
+                            placeholder="Note Title"
                             style={{ width: '100%' }}
                             required={true}
                             name="title"
                             value={title}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>File Link</label>
+                        <input
+                            type="url"
+                            className="form-control"
+                            placeholder="http://example.com"
+                            style={{ width: '100%' }}
+                            required={true}
+                            name="link"
+                            value={link}
                             onChange={handleChange}
                         />
                     </div>

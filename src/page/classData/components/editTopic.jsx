@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../dashboard.module.css';
+import styles from '../../dashboard/dashboard.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Button, Box, CircularProgress } from '@mui/material';
@@ -7,29 +7,36 @@ import { APICall } from '../../../services/apiCall';
 import { useState } from 'react';
 import { useAlert } from 'react-alert';
 
-export default function AddClassForm({ setOpen, setReload }) {
+export default function EditTopicForm({
+    setOpen,
+    classId,
+    setReload,
+    subjectId,
+    topicId,
+}) {
     const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState({ title: '' });
-    const { title } = data;
+    const [data, setData] = useState({ title: '', description: '' });
+    const { title, description } = data;
 
     const navigate = useNavigate();
     const alert = useAlert();
 
-    async function onFormSubmit(e) {
-        setIsLoading(true);
+    useEffect(() => {
+        async function getData() {
+            setIsLoading(true);
 
-        const { status, data } = await APICall({
-            method: 'post',
-            url: '/class',
-            body: { title },
-        });
-        setIsLoading(false);
-        if (status === 'fail') return alert.error(data.message);
+            const { status, data } = await APICall({
+                method: 'get',
+                url: `/topic/${topicId}`,
+            });
 
-        alert.success(data.message);
-        setOpen((prev) => !prev);
-        setReload((prev) => !prev);
-    }
+            setIsLoading(false);
+            if (status === 'fail') return alert.error(data.message);
+            setData(data.data);
+        }
+        getData();
+    }, []);
+
     function handleChange(e) {
         let name = e.target.name;
         let value = e.target.value;
@@ -39,6 +46,40 @@ export default function AddClassForm({ setOpen, setReload }) {
         });
     }
 
+    async function onFormSubmit(e) {
+        setIsLoading(true);
+
+        const { status, data } = await APICall({
+            method: 'patch',
+            url: `/topic/${topicId}`,
+            body: { title, description, subject_id: subjectId },
+        });
+
+        setIsLoading(false);
+        if (status === 'fail') return alert.error(data.message);
+
+        alert.success(data.message);
+        setOpen((prev) => !prev);
+        setReload((prev) => !prev);
+        // window.location.reload();
+    }
+
+    async function handelDeleteClick() {
+        if (window.confirm('Are you sure you want to delete')) {
+            setIsLoading(true);
+            const { status, data } = await APICall({
+                method: 'delete',
+                url: `/topic/${topicId}`,
+            });
+
+            setIsLoading(false);
+            if (status === 'fail') return alert.error(data.message);
+
+            alert.success(data.message);
+            setOpen((prev) => !prev);
+            setReload((prev) => !prev);
+        }
+    }
     return (
         <div
             style={{
@@ -69,6 +110,19 @@ export default function AddClassForm({ setOpen, setReload }) {
                             onChange={handleChange}
                         />
                     </div>
+                    <div className="form-group">
+                        <label>Description</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Subject Title"
+                            style={{ width: '100%' }}
+                            required={true}
+                            name="description"
+                            value={description}
+                            onChange={handleChange}
+                        />
+                    </div>
                     {isLoading && (
                         <Box
                             sx={{
@@ -89,6 +143,17 @@ export default function AddClassForm({ setOpen, setReload }) {
                             disabled={isLoading}
                         >
                             Submit
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            color="error"
+                            disabled={isLoading}
+                            onClick={() => {
+                                handelDeleteClick();
+                            }}
+                        >
+                            Delete
                         </Button>
                         <Button
                             variant="outlined"

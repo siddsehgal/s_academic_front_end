@@ -1,34 +1,37 @@
 // import { View, Text } from 'react-native'
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './dashboard.module.css';
-import Header from '../../Component/header/header';
-import Footer from '../../Component/footer/footer';
-import ClassComponent from './components/classComponent';
+import { useNavigate, useParams } from 'react-router-dom';
+import styles from './topic.module.css';
+import NoteComponent from './components/noteComponent';
 import { useState } from 'react';
 import { Dialog, Box, CircularProgress } from '@mui/material';
-import AddClassForm from './components/addClass';
-import EditClassForm from './components/editClass';
+import AddNoteForm from './components/addNote';
+import EditNoteForm from './components/editNote';
 import { APICall } from '../../services/apiCall';
 import { useEffect } from 'react';
-import { Edit, Add } from '@mui/icons-material';
+import { Add, Edit } from '@mui/icons-material';
+import { useAlert } from 'react-alert';
 
-const Dashboard = () => {
+const Note = () => {
     const [classData, setClassData] = useState([]);
     const [open, setOpen] = useState(false);
     const [reload, setReload] = useState(false);
     const [classId, setClassId] = useState('');
+    const [noteId, setNoteId] = useState('');
     const [editOpen, setEditOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin'));
+    const navigate = useNavigate();
+    const alert = useAlert();
+
+    const { topicId } = useParams();
 
     useEffect(() => {
         async function getData() {
             setIsLoading(true);
             const { status, data } = await APICall({
                 method: 'get',
-                url: '/class',
+                url: `/note?topic_id=${topicId}`,
             });
 
             if (status === 'fail') return alert.error(data.message);
@@ -44,16 +47,22 @@ const Dashboard = () => {
     };
 
     return (
-        <div>
-            <Header />
-
-            <div className={`${styles.Dashboard}`}>
+        <>
+            <div
+                className={`${styles.Dashboard}`}
+            >
                 <div className={`${styles.title_div}`}>
-                    <h3>Classes</h3>
+                    <h3>Notes</h3>
                     {isAdmin === 'true' && (
                         <Add
-                            sx={{ fontSize: '40px', cursor: 'pointer' }}
+                            sx={{
+                                fontSize: '40px',
+                                cursor: 'pointer',
+                            }}
                             // className={`${styles.add_button}`}
+                            // style={{
+                            //     backgroundImage: `url("/images/addIcon.png")`,
+                            // }}
                             onClick={() => {
                                 setOpen(true);
                             }}
@@ -75,11 +84,12 @@ const Dashboard = () => {
                 <div className={`${styles.classes_div}`}>
                     {classData.map((classItem) => {
                         return (
-                            <ClassComponent
+                            <NoteComponent
                                 key={classItem._id}
                                 data={classItem}
                                 setOpen={setEditOpen}
                                 setClassId={setClassId}
+                                setNoteId={setNoteId}
                                 isAdmin={isAdmin}
                             />
                         );
@@ -93,7 +103,11 @@ const Dashboard = () => {
                 fullWidth={true}
                 maxWidth={'sm'}
             >
-                <AddClassForm setReload={setReload} setOpen={setOpen} />
+                <AddNoteForm
+                    setReload={setReload}
+                    setOpen={setOpen}
+                    topicId={topicId}
+                />
             </Dialog>
 
             <Dialog
@@ -102,15 +116,16 @@ const Dashboard = () => {
                 fullWidth={true}
                 maxWidth={'sm'}
             >
-                <EditClassForm
+                <EditNoteForm
                     setReload={setReload}
                     setOpen={setEditOpen}
                     classId={classId}
+                    topicId={topicId}
+                    noteId={noteId}
                 />
             </Dialog>
-            <Footer />
-        </div>
+        </>
     );
 };
 
-export default Dashboard;
+export default Note;

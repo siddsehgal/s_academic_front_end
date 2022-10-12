@@ -23,9 +23,8 @@ export default function EditClassForm({ setOpen, classId, setReload }) {
                 method: 'get',
                 url: `/class/${classId}`,
             });
-
-            if (status === 'fail') return alert.error(data.message);
             setIsLoading(false);
+            if (status === 'fail') return alert.error(data.message);
             setData(data.data);
         }
         getData();
@@ -48,11 +47,10 @@ export default function EditClassForm({ setOpen, classId, setReload }) {
             url: `/class/${classId}`,
             body: { title },
         });
-
+        setIsLoading(false);
         if (status === 'fail') return alert.error(data.message);
 
         alert.success(data.message);
-        setIsLoading(false);
         setOpen((prev) => !prev);
         setReload((prev) => !prev);
         // window.location.reload();
@@ -66,10 +64,10 @@ export default function EditClassForm({ setOpen, classId, setReload }) {
             body: { title },
         });
 
+        setIsLoading(false);
         if (status === 'fail') return alert.error(data.message);
 
         alert.success(data.message);
-        setIsLoading(false);
         setOpen((prev) => !prev);
         setReload((prev) => !prev);
         // window.location.reload();
