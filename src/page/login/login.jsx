@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './login.module.css';
 import Headers from '../../Component/header/header';
 import Footer from '../../Component/footer/footer';
 import logo from '../../img/image 5.png';
 import google from '../../img/image 3.png';
-import { GoogleLogin } from 'react-google-login';
+// import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin } from '@react-oauth/google';
 import { useAlert } from 'react-alert';
 import { APICall } from '../../services/apiCall';
 import { Box, CircularProgress } from '@mui/material';
-
+import BG_IMG_PC from '../../img/pngegg7.png';
+import BG_IMG_MOBILE from '../../img/pngegg7.png';
 const Login = () => {
+    const [classData, setClassData] = useState([]);
     const [showLogin, setShowLogin] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [loginData, setLoginData] = useState({
@@ -34,6 +37,23 @@ const Login = () => {
     } = signUpData;
     const navigate = useNavigate();
     const alert = useAlert();
+    const [dimensions, setDimensions] = useState({ width: '', height: '' });
+    const { height, width } = dimensions;
+
+    useEffect(() => {
+        async function getData() {
+            const { status, data } = await APICall({
+                method: 'get',
+                url: '/class',
+            });
+
+            if (status === 'fail') return alert.error(data.message);
+
+            setClassData(data.data);
+        }
+        getData();
+        setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    }, []);
 
     const handelLoginChange = (e) => {
         let name = e.target.name;
@@ -96,6 +116,7 @@ const Login = () => {
     };
 
     const responseGoogle = async (response) => {
+        console.log(response);
         const { name, email, googleId, imageUrl } = response.profileObj;
         setIsLoading(true);
         const { status, data } = await APICall({
@@ -118,6 +139,25 @@ const Login = () => {
     };
     return (
         <div>
+            <div
+                style={{
+                    backgroundImage: `url(${
+                        width > 650 ? BG_IMG_PC : BG_IMG_MOBILE
+                    })`,
+                    top: '60px',
+                    position: 'fixed',
+                    bottom: '100px',
+                    right: '0',
+                    left: '0',
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundSize: '100vw 90vh',
+                    // border: '1px solid black',
+                    zIndex: '-1',
+                    backgroundRepeat: 'no-repeat',
+                    objectFit: 'cover',
+                }}
+            ></div>
             <Headers />
             <div className={style.container}>
                 <div className={style.left}>
@@ -217,15 +257,20 @@ const Login = () => {
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Class</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter your Class"
+                                <select
                                     name="signUpClass"
-                                    value={signUpClass}
+                                    className="form-control"
                                     onChange={handelSignUpChange}
+                                    value={signUpClass}
                                     required={true}
-                                />
+                                >
+                                    <option value="">Select Class</option>
+                                    {classData.map((item) => (
+                                        <option value={item._id}>
+                                            {item.title}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Password</label>
@@ -294,12 +339,42 @@ const Login = () => {
                     <div className="mb-3" style={{ marginTop: '10px' }}>
                         <p>Login With</p>
                         <GoogleLogin
+                            useOneTap={true}
+                            onSuccess={async (credentialResponse) => {
+                                console.log(credentialResponse);
+                                const { credential } = credentialResponse;
+                                // const { name, email, googleId, imageUrl } =
+                                //     response.profileObj;
+                                setIsLoading(true);
+                                const { status, data } = await APICall({
+                                    method: 'post',
+                                    url: `/auth/google-login/`,
+                                    body: {
+                                        token: credential,
+                                    },
+                                });
+
+                                setIsLoading(false);
+                                if (status === 'fail')
+                                    return alert.error(data.message);
+                                localStorage.setItem('jwt', data.data.token);
+                                localStorage.setItem(
+                                    'isAdmin',
+                                    data.data.user.isAdmin
+                                );
+                                alert.success(data.message);
+                                navigate('/dash');
+                            }}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                        />
+                        {/* <GoogleLogin
                             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                             buttonText="Login"
                             onSuccess={responseGoogle}
                             onFailure={responseGoogle}
-                            cookiePolicy={'single_host_origin'}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>

@@ -11,6 +11,8 @@ import { Dialog, Box, CircularProgress } from '@mui/material';
 import EditTopic from './components/editTopic';
 import AddTopic from './components/addTopic';
 import { ArrowBack, Add } from '@mui/icons-material';
+import BG_IMG_PC from '../../img/pngegg1.png';
+import BG_IMG_MOBILE from '../../img/pngegg5.png';
 
 function ClassData() {
     const { classId, subId } = useParams();
@@ -22,6 +24,8 @@ function ClassData() {
     const [subjectId, setSubjectId] = useState(subId);
     const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin'));
     const navigate = useNavigate();
+    const [dimensions, setDimensions] = useState({ width: '', height: '' });
+    const { height, width } = dimensions;
 
     const [topicData, setTopicData] = useState([]);
 
@@ -36,6 +40,9 @@ function ClassData() {
 
         setTopicData(data.data);
     }
+    useEffect(() => {
+        setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    }, []);
 
     useEffect(() => {
         if (subjectId) getData();
@@ -47,22 +54,28 @@ function ClassData() {
 
     return (
         <div>
+            <div
+                style={{
+                    backgroundImage: `url(${
+                        width > 650 ? BG_IMG_PC : BG_IMG_MOBILE
+                    })`,
+                    top: '60px',
+                    position: 'fixed',
+                    bottom: '100px',
+                    right: '0',
+                    left: '0',
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundSize: '100vw 90vh',
+                    // border: '1px solid black',
+                    zIndex: '-1',
+                    backgroundRepeat: 'no-repeat',
+                    objectFit: 'cover',
+                }}
+            ></div>
             <Header></Header>
             <div className={styles.detailSection}>
                 <div className={styles.leftbar}>
-                    {/* <div
-                        style={{
-                            textAlign: 'left',
-                            marginBottom: '2%',
-                        }}
-                    >
-                        <ArrowBack
-                            // className={dashStyles.add_button}
-                            onClick={() => {
-                                navigate('/dash');
-                            }}
-                        >{`<-`}</ArrowBack>
-                    </div> */}
                     <SubCard
                         classId={classId}
                         setSubjectId={setSubjectId}
@@ -80,7 +93,7 @@ function ClassData() {
                                     marginBottom: '1%',
                                 }}
                             >
-                                <h3 style={{ margin: '0' }}>Add a Topic</h3>
+                                <h3 style={{ margin: '0' }}>Topics</h3>
                                 {isAdmin === 'true' && (
                                     <Add
                                         sx={{

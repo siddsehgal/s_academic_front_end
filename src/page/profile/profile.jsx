@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import { APICall } from '../../services/apiCall.js';
 import EditProfile from './components/editProfile';
 import Profile_pic from '../../img/profile.webp';
+import BG_IMG_PC from '../../img/pngegg7.png';
+import Footer from '../../Component/footer/footer';
 
 function Profile() {
     const [data, setData] = useState({
@@ -20,6 +22,8 @@ function Profile() {
     const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [reload, setReload] = useState(false);
+    const [dimensions, setDimensions] = useState({ width: '', height: '' });
+    const { height, width } = dimensions;
 
     async function getData() {
         setIsLoading(true);
@@ -51,6 +55,7 @@ function Profile() {
 
     useEffect(() => {
         getAttemptData();
+        setDimensions({ width: window.innerWidth, height: window.innerHeight });
     }, []);
 
     const handleClose = () => {
@@ -58,6 +63,23 @@ function Profile() {
     };
     return (
         <div>
+            <div
+                style={{
+                    backgroundImage: `url(${width > 650 ? BG_IMG_PC : ''})`,
+                    top: '60px',
+                    position: 'fixed',
+                    bottom: '100px',
+                    right: '0',
+                    left: '0',
+                    width: '100vw',
+                    height: '90vh',
+                    backgroundSize: '100vw 90vh',
+                    // border: '1px solid black',
+                    zIndex: '-1',
+                    backgroundRepeat: 'no-repeat',
+                    objectFit: 'cover',
+                }}
+            ></div>
             <Header></Header>
             <div className={style.profile}>
                 {isLoading && (
@@ -115,7 +137,10 @@ function Profile() {
                     <h5>
                         <b>Assignments Attempted Report:</b>
                     </h5>
-                    <table className="table table-bordered">
+                    <table
+                        className="table table-bordered"
+                        style={{ backgroundColor: 'white' }}
+                    >
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -153,6 +178,7 @@ function Profile() {
             >
                 <EditProfile setReload={setReload} setOpen={setOpen} />
             </Dialog>
+            <Footer />
         </div>
     );
 }

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useAlert } from 'react-alert';
 
 export default function EditProfile({ setOpen, setReload }) {
+    const [classData, setClassData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState({
         name: '',
@@ -29,6 +30,20 @@ export default function EditProfile({ setOpen, setReload }) {
             if (status === 'fail') return alert.error(data.message);
 
             setData(data.data);
+        }
+        getData();
+    }, []);
+
+    useEffect(() => {
+        async function getData() {
+            const { status, data } = await APICall({
+                method: 'get',
+                url: '/class',
+            });
+
+            if (status === 'fail') return alert.error(data.message);
+
+            setClassData(data.data);
         }
         getData();
     }, []);
@@ -87,18 +102,21 @@ export default function EditProfile({ setOpen, setReload }) {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Class</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter your class"
-                            style={{ width: '100%' }}
-                            required={true}
+
+                    <div className="mb-3">
+                        <label className="form-label">Class</label>
+                        <select
                             name="userClass"
-                            value={userClass}
+                            className="form-control"
                             onChange={handleChange}
-                        />
+                            value={userClass}
+                            required={true}
+                        >
+                            <option value="">Select Class</option>
+                            {classData.map((item) => (
+                                <option value={item._id}>{item.title}</option>
+                            ))}
+                        </select>
                     </div>
                     {isLoading && (
                         <Box

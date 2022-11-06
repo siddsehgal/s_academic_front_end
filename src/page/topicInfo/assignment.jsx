@@ -49,7 +49,10 @@ const Note = () => {
 
     return (
         <>
-            <div className={`${styles.Dashboard}`}>
+            <div
+                className={`${styles.Dashboard}`}
+                style={{ marginBottom: '100px' }}
+            >
                 <div className={`${styles.title_div}`}>
                     <h3>Assignments</h3>
                     {isAdmin === 'true' && (

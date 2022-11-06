@@ -1,5 +1,5 @@
 .Dashboard {
-    /* margin-top: 8rem; */
+    margin-bottom: 100px;
     display: grid;
     overflow: auto;
     z-index: 1;

@@ -147,7 +147,7 @@ const ResponsiveAppBar = () => {
                                 <MenuItem
                                     key={page}
                                     onClick={() => {
-                                        if (page === 'Dashboard') {
+                                        if (page == 'Dashboard') {
                                             navigate('/dash');
                                         }
                                     }}
@@ -189,7 +189,11 @@ const ResponsiveAppBar = () => {
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                onClick={handleCloseNavMenu}
+                                onClick={() => {
+                                    if (page == 'Dashboard') {
+                                        navigate('/dash');
+                                    }
+                                }}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page}

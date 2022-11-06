@@ -32,6 +32,10 @@ function SubCard({ classId, setSubjectId: setSubId, isAdmin }) {
         if (status === 'fail') return alert.error(data.message);
 
         setData(data.data);
+        if (data.data && data.data.length > 0) {
+            setSubId(data.data[0]._id);
+            navigate(`/class/${classId}/subject/${data.data[0]._id}`);
+        }
     }, []);
     useEffect(() => {
         getData();
