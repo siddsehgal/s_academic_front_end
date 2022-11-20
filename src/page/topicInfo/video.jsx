@@ -80,18 +80,31 @@ const Note = () => {
                     </Box>
                 )}
                 <div className={`${styles.classes_div}`}>
-                    {videoData.map((classItem) => {
-                        return (
-                            <VideoComponent
-                                key={classItem._id}
-                                data={classItem}
-                                setOpen={setEditOpen}
-                                setClassId={setClassId}
-                                setVideoId={setVideoId}
-                                isAdmin={isAdmin}
-                            />
-                        );
-                    })}
+                    {videoData.length > 0 ? (
+                        videoData.map((classItem) => {
+                            return (
+                                <VideoComponent
+                                    key={classItem._id}
+                                    data={classItem}
+                                    setOpen={setEditOpen}
+                                    setClassId={setClassId}
+                                    setVideoId={setVideoId}
+                                    isAdmin={isAdmin}
+                                />
+                            );
+                        })
+                    ) : (
+                        <p
+                            style={{
+                                marginTop: '2%',
+                                marginLeft: '2%',
+                                fontSize: '1rem',
+                            }}
+                        >
+                            No Videos Available for this Topic!!
+                        </p>
+                    )}
+                    {}
                 </div>
             </div>
 

@@ -116,7 +116,7 @@ const Login = () => {
     };
 
     const responseGoogle = async (response) => {
-        console.log(response);
+        // console.log(response);
         const { name, email, googleId, imageUrl } = response.profileObj;
         setIsLoading(true);
         const { status, data } = await APICall({
@@ -341,7 +341,7 @@ const Login = () => {
                         <GoogleLogin
                             useOneTap={true}
                             onSuccess={async (credentialResponse) => {
-                                console.log(credentialResponse);
+                                // console.log(credentialResponse);
                                 const { credential } = credentialResponse;
                                 // const { name, email, googleId, imageUrl } =
                                 //     response.profileObj;

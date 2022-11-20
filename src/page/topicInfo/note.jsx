@@ -50,6 +50,7 @@ const Note = () => {
         <>
             <div
                 className={`${styles.Dashboard}`}
+                style={{ marginBottom: '100px' }}
             >
                 <div className={`${styles.title_div}`}>
                     <h3>Notes</h3>
@@ -82,18 +83,30 @@ const Note = () => {
                     </Box>
                 )}
                 <div className={`${styles.classes_div}`}>
-                    {classData.map((classItem) => {
-                        return (
-                            <NoteComponent
-                                key={classItem._id}
-                                data={classItem}
-                                setOpen={setEditOpen}
-                                setClassId={setClassId}
-                                setNoteId={setNoteId}
-                                isAdmin={isAdmin}
-                            />
-                        );
-                    })}
+                    {classData.length > 0 ? (
+                        classData.map((classItem) => {
+                            return (
+                                <NoteComponent
+                                    key={classItem._id}
+                                    data={classItem}
+                                    setOpen={setEditOpen}
+                                    setClassId={setClassId}
+                                    setNoteId={setNoteId}
+                                    isAdmin={isAdmin}
+                                />
+                            );
+                        })
+                    ) : (
+                        <p
+                            style={{
+                                marginTop: '2%',
+                                marginLeft: '2%',
+                                fontSize: '1rem',
+                            }}
+                        >
+                            No Notes Available for this Topic!!
+                        </p>
+                    )}
                 </div>
             </div>
 

@@ -87,7 +87,6 @@ function SubCard({ classId, setSubjectId: setSubId, isAdmin }) {
                     </Box>
                 )}
                 {data.map((subject, index) => {
-                    console.log(index, subject._id === subId);
                     return (
                         <li
                             key={subject._id}

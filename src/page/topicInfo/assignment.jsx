@@ -49,10 +49,7 @@ const Note = () => {
 
     return (
         <>
-            <div
-                className={`${styles.Dashboard}`}
-                style={{ marginBottom: '100px' }}
-            >
+            <div className={`${styles.Dashboard}`}>
                 <div className={`${styles.title_div}`}>
                     <h3>Assignments</h3>
                     {isAdmin === 'true' && (
@@ -84,19 +81,31 @@ const Note = () => {
                     </Box>
                 )}
                 <div className={`${styles.classes_div}`}>
-                    {classData.map((classItem) => {
-                        return (
-                            <AssignmentComponent
-                                key={classItem._id}
-                                data={classItem}
-                                setOpen={setEditOpen}
-                                setClassId={setClassId}
-                                setNoteId={setNoteId}
-                                setAssignmentId={setAssignmentId}
-                                isAdmin={isAdmin}
-                            />
-                        );
-                    })}
+                    {classData.length > 0 ? (
+                        classData.map((classItem) => {
+                            return (
+                                <AssignmentComponent
+                                    key={classItem._id}
+                                    data={classItem}
+                                    setOpen={setEditOpen}
+                                    setClassId={setClassId}
+                                    setNoteId={setNoteId}
+                                    setAssignmentId={setAssignmentId}
+                                    isAdmin={isAdmin}
+                                />
+                            );
+                        })
+                    ) : (
+                        <p
+                            style={{
+                                marginTop: '2%',
+                                marginLeft: '2%',
+                                fontSize: '1rem',
+                            }}
+                        >
+                            No Assignment Available for this Topic!!
+                        </p>
+                    )}
                 </div>
             </div>
 

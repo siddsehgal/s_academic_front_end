@@ -36,12 +36,14 @@ const Topic = () => {
                 }}
             ></div>
             <Header />
+            <Assignment />
 
-            <Note />
             <hr />
             <Video />
+
             <hr />
-            <Assignment />
+            <Note />
+
             <Footer />
         </div>
     );
