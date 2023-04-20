@@ -1,0 +1,84 @@
+.Dashboard {
+    display: grid;
+    overflow: auto;
+    z-index: 1;
+    padding: 2%;
+}
+
+.title_div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.title_div h3 {
+    margin: 0;
+}
+.add_button {
+    border: 0;
+    margin: 0 1%;
+    height: 30px;
+    width: 30px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.classes_div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.class_div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    width: auto;
+    padding: 1% 2%;
+    background-color: aquamarine;
+    margin: 2%;
+}
+.class_div:hover,
+.edit_button:hover,
+.add_button:hover {
+    cursor: pointer;
+}
+.class_div p {
+    margin: 0;
+    width: max-content;
+    white-space: nowrap;
+}
+.edit_button {
+    width: max-content;
+    border: 0;
+    border-radius: 10px;
+    background-color: greenyellow;
+    margin-left: 10%;
+}
+.ownbtn {
+    border: none;
+    background: none;
+}
+.add_class_div {
+    /* display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center; */
+}
+.add_class_div h3 {
+    margin: 0;
+    white-space: nowrap;
+    width: auto;
+}
+
+.add_class_button_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media only screen and (max-width: 500px) {
+    .class_div {
+        padding: 3% 5%;
+    }
+}
